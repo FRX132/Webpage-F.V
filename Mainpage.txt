@@ -1,0 +1,136 @@
+"use client" // Directive to indicate this component uses client-side rendering.
+
+import { useTranslation } from "react-i18next" // Import the translation hook from the i18next library for internationalization.
+import Image from "next/image" // Import Next.js Image component for optimized images.
+import { Navbar } from "@/components/Navbar" // Import a custom Navbar component.
+import { Button } from "@/components/ui/button" // Import a reusable Button component.
+import { AllLinksButton } from "@/components/AllLinksButton" // Import a button component for external links.
+import { LanguageSelector } from "@/components/LanguageSelector" // Import a language selection component.
+import Link from "next/link" // Import Next.js Link for client-side navigation.
+import { Music, Mail, Instagram, Youtube, Facebook } from "lucide-react" // Import icons from the Lucide library.
+
+const cyberStyles = `
+  .font-cyber {
+    font-family: 'Orbitron', sans-serif; // Apply a futuristic font style.
+    text-shadow: 0 0 10px #00f3ff, 0 0 20px #00f3ff, 0 0 30px #00f3ff; // Neon-like glowing text effect.
+  }
+  .font-cyber-secondary {
+    font-family: 'Rajdhani', sans-serif; // Secondary futuristic font.
+    letter-spacing: 1px; // Adds spacing between letters.
+  }
+`
+
+const glowAnimation = `
+  @keyframes glow { // Define a CSS animation for glowing effects.
+    0% {
+      box-shadow: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green);
+    }
+    50% {
+      box-shadow: 0 0 20px var(--neon-green), 0 0 30px var(--neon-green);
+    }
+    100% {
+      box-shadow: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green);
+    }
+  }
+
+  .glow-effect {
+    animation: glow 2s ease-in-out infinite; // Apply the animation infinitely with a smooth transition.
+  }
+`
+
+const neonText = `
+  .neon-text {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 
+                 0 0 20px #ff00de, 0 0 35px #ff00de, 
+                 0 0 40px #ff00de, 0 0 50px #ff00de, 
+                 0 0 75px #ff00de; // Complex glowing text effect for neon style.
+  }
+`
+
+export default function ArtistPage() {
+  const { t } = useTranslation() // Initialize the translation hook for localized text.
+
+  return (
+    <div className="min-h-screen bg-black text-white"> {/* Full-page container with black background and white text */}
+      <Navbar /> {/* Render the navigation bar */}
+      <LanguageSelector /> {/* Render the language selector */}
+
+      {/* Hero Section */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden"> {/* Full-screen hero section */}
+        <div className="fixed inset-0 z-0"> {/* Background image container */}
+          <Image
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/PRODUCTION%20BACKGROUND%20THEME%202-iqWVLNxtReWaGSEdz36X9xHUyXXd37.png"
+            alt="Abstract geometric pattern background"
+            layout="fill" // Fill the entire container.
+            objectFit="cover" // Ensure the image covers the container while maintaining its aspect ratio.
+            className="opacity-70" // Add transparency for overlay effects.
+          />
+        </div>
+        <div className="z-10 text-center relative bg-black bg-opacity-80 p-8 rounded-lg"> {/* Foreground content */}
+          <h1 className="text-6xl font-bold mb-4 animate-pulse text-neon-blue font-cyber">FREAKZY</h1> {/* Main title with animation */}
+          <p className="text-2xl mb-8 font-cyber-secondary">{t("hero.subtitle")}</p> {/* Subtitle text */}
+          <p className="text-xl mb-8 font-cyber-secondary">{t("hero.description")}</p> {/* Description text */}
+          <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6"> {/* Call-to-action buttons */}
+            <AllLinksButton
+              url="https://linktr.ee/freakzy_official"
+              className="w-full sm:w-auto bg-gray-800 hover:bg-gray-700" // Button styling for responsiveness and hover effects.
+            />
+            <Button
+              onClick={() =>
+                window.open("https://social.tunecore.com/linkShare?linkid=NMEJ3ZJzPAmmurI5fZ8vZA", "_blank") // Open external link in a new tab.
+              }
+              className="
+                w-full sm:w-auto
+                bg-gray-800 text-white border-2 border-neon-green
+                hover:bg-gray-700 hover:border-neon-yellow hover:text-neon-yellow
+                transition-all duration-300
+                shadow-lg shadow-neon-green hover:shadow-neon-yellow
+                text-lg py-3 px-6
+                glow-effect // Apply the glow effect animation.
+              "
+            >
+              <Music className="mr-2 h-6 w-6" /> {/* Music icon */}
+              {t("hero.listenNow")} {/* Localized text for the button */}
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-12 px-4"> {/* Footer section */}
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8"> {/* Responsive grid layout */}
+          <div className="text-center md:text-left">
+            <h3 className="text-3xl font-bold mb-4 text-neon-blue neon-text">Freakzy</h3> {/* Footer title */}
+            <p className="text-lg">{t("hero.subtitle")}</p> {/* Localized subtitle */}
+          </div>
+          <div className="text-center md:text-left">
+            <h4 className="text-2xl font-semibold mb-4 text-neon-pink neon-text">{t("footer.quickLinks")}</h4> {/* Quick links section */}
+            <ul className="space-y-2">
+              {[
+                { href: "/about", text: t("nav.about") },
+                { href: "/music", text: t("nav.music") },
+                { href: "/shop", text: t("nav.shop") },
+                { href: "/blog", text: t("nav.blog") },
+                { href: "/contact", text: t("nav.contact") },
+              ].map((link, index) => (
+                <li key={index}>
+                  <Link href={link.href} className="text-lg hover:text-neon-blue transition duration-300">
+                    {link.text} {/* Localized link text */}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="text-center md:text-left">
+            <h4 className="text-2xl font-semibold mb-4 text-neon-green neon-text">{t("footer.newsletter.title")}</h4> {/* Newsletter title */}
+            <p className="mb-4 text-lg">{t("footer.newsletter.description")}</p> {/* Newsletter description */}
+            <form className="flex flex-col sm:flex-row gap-2">
+              <input
+                type="email"
+                placeholder={t("footer.newsletter.placeholder")} {/* Localized placeholder */}
+                className="flex-grow p-2 rounded-md bg-gray-800 text-white border border-gray-700 focus:border-neon-blue focus:outline-none"
+              />
+              <button
+                type="submit"
+                className="bg-neon-blue text-black px-6 py-2 rounded-md hover:bg-blue-400 transition duration-300 text-lg font-semibold"
+             
